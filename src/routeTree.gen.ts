@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ProjelerimizRouteImport } from './routes/projelerimiz'
 import { Route as IletisimRouteImport } from './routes/iletisim'
 import { Route as HizmetlerimizRouteImport } from './routes/hizmetlerimiz'
 import { Route as HakkimizdaRouteImport } from './routes/hakkimizda'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProjelerimizRoute = ProjelerimizRouteImport.update({
   id: '/projelerimiz',
   path: '/projelerimiz',
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/hizmetlerimiz': typeof HizmetlerimizRoute
   '/iletisim': typeof IletisimRoute
   '/projelerimiz': typeof ProjelerimizRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/hizmetlerimiz': typeof HizmetlerimizRoute
   '/iletisim': typeof IletisimRoute
   '/projelerimiz': typeof ProjelerimizRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,6 +70,7 @@ export interface FileRoutesById {
   '/hizmetlerimiz': typeof HizmetlerimizRoute
   '/iletisim': typeof IletisimRoute
   '/projelerimiz': typeof ProjelerimizRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -71,8 +80,15 @@ export interface FileRouteTypes {
     | '/hizmetlerimiz'
     | '/iletisim'
     | '/projelerimiz'
+    | '/sitemap.xml'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/hakkimizda' | '/hizmetlerimiz' | '/iletisim' | '/projelerimiz'
+  to:
+    | '/'
+    | '/hakkimizda'
+    | '/hizmetlerimiz'
+    | '/iletisim'
+    | '/projelerimiz'
+    | '/sitemap.xml'
   id:
     | '__root__'
     | '/'
@@ -80,6 +96,7 @@ export interface FileRouteTypes {
     | '/hizmetlerimiz'
     | '/iletisim'
     | '/projelerimiz'
+    | '/sitemap.xml'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -88,10 +105,18 @@ export interface RootRouteChildren {
   HizmetlerimizRoute: typeof HizmetlerimizRoute
   IletisimRoute: typeof IletisimRoute
   ProjelerimizRoute: typeof ProjelerimizRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/projelerimiz': {
       id: '/projelerimiz'
       path: '/projelerimiz'
@@ -136,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   HizmetlerimizRoute: HizmetlerimizRoute,
   IletisimRoute: IletisimRoute,
   ProjelerimizRoute: ProjelerimizRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
